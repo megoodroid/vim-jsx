@@ -31,7 +31,20 @@ endif
   return 1
 endfu
 
+function! s:FTJsx()
+  let n = 1
+  while n < 10 && n < line("$")
+    if getline(n) =~ 'import\s*\(React\|ReactDOM\)'
+      set filetype=javascript.jsx
+      break
+    endif
+    let n = n + 1
+  endwhile
+endfunc
+au BufNewFile,BufRead *.js call s:FTJsx()
+
 autocmd BufNewFile,BufRead *.jsx let b:jsx_ext_found = 1
 autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 autocmd BufNewFile,BufRead *.js
   \ if <SID>EnableJSX() | set filetype=javascript.jsx | endif
+
